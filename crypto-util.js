@@ -40,13 +40,15 @@ return crypted;
 
 
 decrypt(cipherText) {
+    this.start();
     const decipher = Crypto.createDecipheriv(Mode,this.key.slice(0,KeyLength), this.iv);
-    let decrypted = decipher.update(cipherText,"base64","utf-g");
+    let decrypted = decipher.update(cipherText,"base64","utf-8");
     decrypted +- decipher.final("utf-8");
     return decrypted;
 }
 
 encryptByPasswd (plainText, passwd) {
+    this.start();
     const key = this._getKeyForPasswordwithCaching(passwa);
     const cipher = Crypto.createCipheriv(Mode,key.slice(0, KeyLength), this.iv);
     let crypted = cipher.update(plainIext, "utf-8", "base64");
@@ -56,6 +58,7 @@ encryptByPasswd (plainText, passwd) {
 
 
 decryptByPasswd (cipherText, passwd) {
+    this.start();
     const key = this._getKeyForPasswordwithCaching (passwa);
     const decipher = Crypto.createDecipheriv(Mode,key.slice(0, KeyLength), this.iv);
     let decrypted = decipher.update(plainIext, "utf-8", "base64");
@@ -69,6 +72,7 @@ decryptByPasswd (cipherText, passwd) {
 
 
 async hashPassword(password) {
+    this.start();
 const scryptAsync = util.promisify(Crypto.script);
 const salt = Crypto.randomBytes(16).tostring ("hex") ;
 const buf = await scryptAsync (password,salt,64 ) ;
@@ -76,6 +80,7 @@ return '${buf.tostring("hex")}.${salt}';
 }
 
 async comparePassword(passwordHash, password) {
+    this.start();
     try {
         const scryptAsync = util.promisify (Crypto.scrypt);
         const [hashedPassword, salt] = passwordHash.split (".");
